@@ -1,5 +1,6 @@
 function insertBooks(booksSelectId) {
     var booksSelect = document.getElementById(booksSelectId)
+    // booksSelect.parentNode.classList.add("is-loading")
     loadJSON('/js/audiobible_books.json', function (response) {
         var booksJSON = JSON.parse(response)
         for (let i = 0; i < booksJSON.books.length; i++) {
@@ -12,6 +13,7 @@ function insertBooks(booksSelectId) {
             insertBookOption(book)
         }
         booksSelect.selectedIndex = 39  // select Mat
+        booksSelect.parentNode.classList.remove("is-loading")
     })
 }
 
@@ -19,6 +21,7 @@ function insertChapters(chaptersSelectId, booksSelectId) {
     var chaptersSelect = document.getElementById(chaptersSelectId)
     var booksSelect = document.getElementById(booksSelectId)
 
+    chaptersSelect.parentNode.classList.add("is-loading")
     removeChapters(chaptersSelect)
 
     loadJSON('/js/audiobible_books.json', function (response) {
@@ -37,6 +40,7 @@ function insertChapters(chaptersSelectId, booksSelectId) {
                 break
             }
         }
+        chaptersSelect.parentNode.classList.remove("is-loading")
     })
 }
 
@@ -77,7 +81,6 @@ window.onload = function () {
 
     this.changeAudioSrcWhenReady('books', 'chapters')
 }
-
 
 function loadJSON(path, callback) {
     var xobj = new XMLHttpRequest();
@@ -136,7 +139,6 @@ function nextChapter(chaptersSelectId) {
         chaptersSelect.selectedIndex = chaptersSelect.selectedIndex + 1
     }
 }
-
 
 function prevChapter(chaptersSelectId) {
     var chaptersSelect = document.getElementById(chaptersSelectId)
